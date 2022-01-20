@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "swmetrics"
+version = "0.1.0"
+description = "Tool to extract software metrics from a repository"
+authors = ["David Khouya <dakhouya@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+GitPython = "^3.1.26"
+coverage = {extras = ["toml"], version = "^6.3"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+pytest-cov = "^2.9.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.coverage.report]
+exclude_lines = ["if __name__ == '__main__':", "pragma: no cover"]
+omit = ["tests/*", "venv/*", ".venv/*", "*/conftest.py", "*/__init__.py", "*/main.py", "*/virtualenvs/*"]
+
+[tool.coverage.run]
+branch = true
