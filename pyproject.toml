@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "swmetrics"
 version = "0.1.0"
-description = "Tool to extract software metrics from a repository"
+description = "Tool to extract software metrics from a git repository"
 authors = ["David Khouya <dakhouya@gmail.com>"]
 license = "MIT"
 readme = "README.md"
@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.7"
 GitPython = "^3.1.26"
 coverage = {extras = ["toml"], version = "^6.3"}
+click = "^8.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"

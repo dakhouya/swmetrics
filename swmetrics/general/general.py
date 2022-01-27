@@ -4,10 +4,20 @@ from os import path
 
 class General:
     def __init__(self, repo: Repo):
+        self.path = ''
         self.authors = []
         self.commits = []
         self.files = []
         self.__analyse(repo)
+
+    def __str__(self):
+        s = f"""path: {self.path}
+author count: {len(self.authors)}
+commit count: {len(self.commits)}
+file count: {len(self.files)}
+"""
+
+        return s
 
     def line_count(self) -> int:
         line_count = 0
@@ -23,6 +33,9 @@ class General:
         return line_count
 
     def __analyse(self, repo: Repo):
+        # Get path
+        self.path = repo.working_tree_dir
+
         # Get commits
         self.commits = list(repo.iter_commits())
 
