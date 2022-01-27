@@ -7,6 +7,9 @@ import shutil
 TEST_BASE_PATH = './tmp/'
 TEST_REPO_PATH = TEST_BASE_PATH + '/test-repo/'
 TEST_FILE_PATH = TEST_REPO_PATH + 'readme.txt'
+TEST_GIT_NAME = 'test name'
+TEST_GIT_EMAIL = 'test.name@email.com'
+TEST_COMMIT_MSG = 'first commit\n'
 
 
 def recursive_chmod(path, permissions):
@@ -23,10 +26,10 @@ def setup():
     with open(TEST_FILE_PATH, 'w') as f:
         f.write('First line')
         f.close()
-    repo.config_writer().set_value("user", "name", "test name").release()
-    repo.config_writer().set_value("user", "email", "test.name@email.com").release()
+    repo.config_writer().set_value("user", "name", TEST_GIT_NAME).release()
+    repo.config_writer().set_value("user", "email", TEST_GIT_EMAIL).release()
     repo.git.add(all=True)
-    repo.git.commit('-m', 'first commit')
+    repo.git.commit('-m', TEST_COMMIT_MSG)
     # Close all descriptors
     repo.close()
     yield
@@ -37,6 +40,40 @@ def setup():
 
 def test_init(setup):
     repo = Repo(TEST_REPO_PATH)
+    General(repo)
+    repo.close()
+
+
+def test_str(setup):
+    repo = Repo(TEST_REPO_PATH)
     general = General(repo)
     repo.close()
-    assert len(general.authors) == 1
+    assert general.__str__()
+
+
+def test_path(setup):
+    repo = Repo(TEST_REPO_PATH)
+    general = General(repo)
+    repo.close()
+    assert general.path == os.path.abspath(TEST_REPO_PATH)
+
+
+def test_authors(setup):
+    repo = Repo(TEST_REPO_PATH)
+    general = General(repo)
+    repo.close()
+    assert general.authors[0].name == TEST_GIT_NAME
+
+
+def test_commits(setup):
+    repo = Repo(TEST_REPO_PATH)
+    general = General(repo)
+    repo.close()
+    assert general.commits[0].message == TEST_COMMIT_MSG
+
+
+def test_line_count(setup):
+    repo = Repo(TEST_REPO_PATH)
+    general = General(repo)
+    repo.close()
+    assert general.line_count() == 1
